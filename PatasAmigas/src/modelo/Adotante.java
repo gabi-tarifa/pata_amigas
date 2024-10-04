@@ -7,11 +7,11 @@ import java.util.List;
 public class Adotante extends Pessoa {
     private static int id_static = 1;
     private int id_adotante;
-    private List preferencias = new ArrayList();
+    private String preferencias;
     private List historico_adocao = new ArrayList(); //depois vai virar o mesmo obj de tutor
     private String status;
 
-    public Adotante(List preferencias, List historico_adocao, String status, String nome, Date nascimento, String sexo, long cpf, String endereco, long telefone, String email, String senha) {
+    public Adotante(String preferencias, String status, String nome, Date nascimento, String sexo, long cpf, String endereco, long telefone, String email, String senha) {
         super(nome, nascimento,sexo,cpf,endereco,telefone,email, senha);
         this.id_adotante = id_static++;
         this.preferencias = preferencias;
@@ -23,11 +23,11 @@ public class Adotante extends Pessoa {
         return id_adotante;
     }
 
-    public List getPreferencias() {
+    public String getPreferencias() {
         return preferencias;
     }
 
-    public void setPreferencias(List preferencias) {
+    public void setPreferencias(){
         this.preferencias = preferencias;
     }
 
@@ -49,7 +49,7 @@ public class Adotante extends Pessoa {
 
     @Override
     public String toString() {
-        return "modelo.Adotante{" +
+        return super.toString()+"dados especificos adotante{"+
                 "id_adotante=" + id_adotante +
                 ", preferencias=" + preferencias +
                 ", historico_adocao=" + historico_adocao +

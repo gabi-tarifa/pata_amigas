@@ -87,4 +87,17 @@ public class Pessoa {
         this.senha = senha;
     }
 
+    @Override
+    public String toString() {
+        return "Pessoa{" +
+                "senha='" + senha + '\'' +
+                ", email='" + email + '\'' +
+                ", telefone=" + telefone +
+                ", endereco='" + endereco + '\'' +
+                ", cpf=" + cpf +
+                ", sexo='" + sexo + '\'' +
+                ", nascimento=" + nascimento +
+                ", nome='" + nome + '\'' +
+                '}';
+    }
 }

@@ -93,4 +93,9 @@ public class Animal {
     public void setStatusAdocao(String statusAdocao) {
         this.statusAdocao = statusAdocao;
     }
+
+    public String apresentar(){
+        return "Nome do animal: " + getNome() + "\nEspécie: " + getEspecie() + "\nRaça: " + getRaca() + "\nIdade: " + getIdade() + "\nSexo: " + getSexo() + "\nHistórico Médico: " + getHistoricoMedico() + "\nData de Cadastro: " + getDataCadastro() + "\nStatus de Adoção: " + getStatusAdocao();
+    }
+
 }

@@ -58,7 +58,7 @@ public class Funcionario extends Pessoa {
 
     @Override
     public String toString() {
-        return "modelo.Funcionario{" +
+        return super.toString()+"dados especificos funcionário{"+
                 "id_funcionario=" + id_funcionario +
                 ", data_contrato=" + data_contrato +
                 ", cargo='" + cargo + '\'' +
