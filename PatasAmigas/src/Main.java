@@ -1,7 +1,7 @@
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Scanner;
-import java.util.Date;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.*;
+
 import modelo.*;
 
 public class Main {
@@ -21,7 +21,8 @@ public class Main {
             System.out.println("2.Tutor");
             System.out.println("3.Adotante");
             System.out.println("4.Animal");
-            System.out.println("5.Saída");
+            System.out.println("5.Exibir Usuários");
+            System.out.println("6.Saída");
             int op = ler.nextInt();
 
             switch (op){
@@ -36,7 +37,11 @@ public class Main {
                     break;
                 case 4:
                     controle_animal();
+                    break;
                 case 5:
+                    exibirUsuarios(funcionarios, tutores, adotantes);
+                    break;
+                case 6:
                     sistema = false;
                     break;
                 default:
@@ -117,7 +122,7 @@ public class Main {
 
             switch (op){
                 case 1:
-                    adcionarAdotante();
+                    adicionarAdotante();
                     break;
                 case 2:
                     listarAdotantes();
@@ -165,113 +170,224 @@ public class Main {
 }
 
     public static void adicionarFuncionario() {
-        System.out.println("Digite os dados do novo Funcionário:");
-        System.out.print("Nome: ");
-        ler.nextLine();
-        String nome = ler.nextLine();
-        System.out.print("Data de nascimento (dd/MM/yyyy): ");
-        String dataNascimentoStr = ler.nextLine(); // tratar a data adequadamente.
-        Date nascimento = new Date(); // Implementar o parse correto aqui.
+        System.out.println("Digite o ID da pessoa ou 0 para novo cadastro: ");
+        int id = ler.nextInt();
 
-        System.out.print("Sexo: ");
-        String sexo = ler.nextLine();
-        System.out.print("CPF: ");
-        long cpf = ler.nextLong();
-        ler.nextLine();
-        System.out.print("Endereço: ");
-        String endereco = ler.nextLine();
-        System.out.print("Telefone: ");
-        long telefone = ler.nextLong();
-        ler.nextLine();
-        System.out.print("Email: ");
-        String email = ler.nextLine();
-        System.out.print("Senha: ");
-        String senha = ler.nextLine();
-        System.out.print("Cargo: ");
-        String cargo = ler.nextLine();
-        System.out.print("Departamento: ");
-        String departamento = ler.nextLine();
-        System.out.print("Salário: ");
-        float salario = ler.nextFloat();
+        Pessoa pessoaExistente = null;
+        if (id != 0) {
+            pessoaExistente = buscarPessoaPorId(id);
+        }
 
-        Funcionario funcionario = new Funcionario(new Date(), cargo, salario, departamento, nome,
-                nascimento, sexo, cpf, endereco, telefone,
-                email, senha);
-        funcionarios.add(funcionario);
-        System.out.println("Funcionário adicionado com sucesso!");
+        if (pessoaExistente == null) {
+            // Se não encontrou pessoa, cadastrar nova
+            System.out.println("Pessoa nova, digite os dados abaixo.");
+            ler.nextLine();
+            System.out.print("Nome: ");
+            String nome = ler.nextLine();
+            System.out.print("Data de nascimento (dd/MM/yyyy): ");
+            String dataNascimentoStr = ler.nextLine();
+            Date nascimento = parseDate(dataNascimentoStr);
+            System.out.print("Sexo: ");
+            String sexo = ler.nextLine();
+            System.out.print("CPF: ");
+            long cpf = ler.nextLong();
+            ler.nextLine();
+            System.out.print("Endereço: ");
+            String endereco = ler.nextLine();
+            System.out.print("Telefone: ");
+            long telefone = ler.nextLong();
+            ler.nextLine();
+            System.out.print("Email: ");
+            String email = ler.nextLine();
+            System.out.print("Senha: ");
+            String senha = ler.nextLine();
+
+            // Atributos específicos de Funcionário
+            System.out.print("Cargo: ");
+            String cargo = ler.nextLine();
+            System.out.print("Departamento: ");
+            String departamento = ler.nextLine();
+            System.out.print("Salário: ");
+            float salario = ler.nextFloat();
+
+            Funcionario funcionario = new Funcionario(new Date(), cargo, salario, departamento, nome,
+                    nascimento, sexo, cpf, endereco, telefone, email, senha);
+            funcionarios.add(funcionario);
+            System.out.println("Funcionário adicionado com sucesso!");
+
+        } else {
+            // Reutilizar dados da pessoa existente
+            System.out.println("Pessoa encontrada. Nome: " + pessoaExistente.getNome());
+
+            // Solicitar apenas os atributos específicos do funcionário
+            System.out.print("Cargo: ");
+            ler.nextLine(); // Consumir o '\n' pendente
+            String cargo = ler.nextLine();
+            System.out.print("Departamento: ");
+            String departamento = ler.nextLine();
+            System.out.print("Salário: ");
+            float salario = ler.nextFloat();
+
+            Funcionario funcionario = new Funcionario(new Date(), cargo, salario, departamento,
+                    pessoaExistente.getNome(), pessoaExistente.getNascimento(),
+                    pessoaExistente.getSexo(), pessoaExistente.getCpf(),
+                    pessoaExistente.getEndereco(), pessoaExistente.getTelefone(),
+                    pessoaExistente.getEmail(), pessoaExistente.getSenha());
+            funcionario.setId_funcionario(id);
+            funcionarios.add(funcionario);
+            System.out.println("Funcionário adicionado com sucesso!");
+        }
+    }
+    public static Pessoa buscarPessoaPorId(int id) {
+        // Procurar entre os funcionários
+        for (Funcionario f : funcionarios) {
+            if (f.getId_funcionario() == id) {
+                return f;
+            }
+        }
+        // Procurar entre os tutores
+        for (Tutor t : tutores) {
+            if (t.getId_tutor() == id) {
+                return t;
+            }
+        }
+        // Procurar entre os adotantes
+        for (Adotante a : adotantes) {
+            if (a.getId_adotante() == id) {
+                return a;
+            }
+        }
+        // Caso não encontre, retorna null
+        return null;
     }
 
+
     public static void adicionarTutor() {
-        System.out.println("Digite os dados do novo Tutor:");
-        System.out.print("Nome: ");
-        ler.nextLine();
-        String nome = ler.nextLine();
+        System.out.println("Digite o ID da pessoa ou 0 para novo cadastro: ");
+        int id = ler.nextInt();
 
-        System.out.print("Data de nascimento (dd/MM/yyyy): ");
-        String dataNascimentoStr = ler.nextLine(); // tratar a data adequadamente.
-        Date nascimento = new Date(); // Implementar o parse correto aqui.
+        Pessoa pessoaExistente = null;
+        if (id != 0) {
+            pessoaExistente = buscarPessoaPorId(id);
+        }
 
-        System.out.print("Sexo: ");
-        String sexo = ler.nextLine();
-        System.out.print("CPF: ");
-        long cpf = ler.nextLong();
-        ler.nextLine();
-        System.out.print("Endereço: ");
-        String endereco = ler.nextLine();
-        System.out.print("Telefone: ");
-        long telefone = ler.nextLong();
-        ler.nextLine();
-        System.out.print("Email: ");
-        String email = ler.nextLine();
-        System.out.print("Senha: ");
-        String senha = ler.nextLine();
-        System.out.print("Animais sob custódia: ");
-        int animaisCustodia = ler.nextInt();
-        ler.nextLine();
-        System.out.print("Histórico de adoção: "); // Lista - adicionado em formato de string
-        String historicoAdocao = ler.nextLine();
-        System.out.print("Status: ");
-        String status = ler.nextLine();
+        if (pessoaExistente == null) {
+            // Se não encontrou pessoa, cadastrar nova
+            System.out.println("Pessoa nova, digite os dados abaixo.");
+            ler.nextLine();
+            System.out.print("Nome: ");
+            String nome = ler.nextLine();
+            System.out.print("Data de nascimento (dd/MM/yyyy): ");
+            String dataNascimentoStr = ler.nextLine();
+            Date nascimento = parseDate(dataNascimentoStr);
+            System.out.print("Sexo: ");
+            String sexo = ler.nextLine();
+            System.out.print("CPF: ");
+            long cpf = ler.nextLong();
+            ler.nextLine();
+            System.out.print("Endereço: ");
+            String endereco = ler.nextLine();
+            System.out.print("Telefone: ");
+            long telefone = ler.nextLong();
+            ler.nextLine();
+            System.out.print("Email: ");
+            String email = ler.nextLine();
+            System.out.print("Senha: ");
+            String senha = ler.nextLine();
 
-        Tutor tutor = new Tutor(animaisCustodia, historicoAdocao, status, nome,
-                nascimento, sexo, cpf, endereco, telefone, email, senha);
+            // Atributos específicos de Tutor
+            System.out.print("Animais sob custódia: ");
+            int animaisCustodia = ler.nextInt();
+            ler.nextLine();
+            System.out.print("Histórico de adoção: "); // Lista - adicionado em formato de string
+            String historicoAdocao = ler.nextLine();
+            System.out.print("Status: ");
+            String status = ler.nextLine();
 
-        tutores.add(tutor);
-        System.out.println("Tutor adicionado com sucesso!");}
+            Tutor tutor = new Tutor( animaisCustodia,historicoAdocao,status,nome, nascimento, sexo, cpf, endereco, telefone, email, senha);
+            tutores.add(tutor);
+            System.out.println("Tutor adicionado com sucesso!");
 
-    public static void adcionarAdotante(){
-        System.out.println("Digite os dados do novo Adotante:");
-        System.out.print("Nome: ");
-        ler.nextLine();
-        String nome = ler.nextLine();
-        System.out.print("Data de nascimento (dd/MM/yyyy): ");
-        String dataNascimentoStr = ler.nextLine(); // tratar a data adequadamente.
-        Date nascimento = new Date(); // Implementar o parse correto aqui.
+        } else {
+            // Reutilizar dados da pessoa existente
+            System.out.println("Pessoa encontrada. Nome: " + pessoaExistente.getNome());
 
-        System.out.print("Sexo: ");
-        String sexo = ler.nextLine();
-        System.out.print("CPF: ");
-        long cpf = ler.nextLong();
-        ler.nextLine();
-        System.out.print("Endereço: ");
-        String endereco = ler.nextLine();
-        System.out.print("Telefone: ");
-        long telefone = ler.nextLong();
-        ler.nextLine();
-        System.out.print("Email: ");
-        String email = ler.nextLine();
-        System.out.print("Senha: ");
-        String senha = ler.nextLine();
-        System.out.println("Preferências:");
-        String preferencias = ler.nextLine();
-        System.out.println("Status:");
-        String status = ler.nextLine();
+            // Solicitar apenas os atributos específicos do tutor
+            System.out.print("Animais sob custódia: ");
+            int animaisCustodia = ler.nextInt();
+            ler.nextLine();
+            System.out.print("Histórico de adoção: "); // Lista - adicionado em formato de string
+            String historicoAdocao = ler.nextLine();
+            System.out.print("Status: ");
+            String status = ler.nextLine();
 
-        Adotante adotante = new Adotante(preferencias, status, nome,
-                nascimento, sexo, cpf, endereco, telefone,
-                email, senha);
-        adotantes.add(adotante);
-        System.out.println("Adotante adicionado com sucesso!");
+            Tutor tutor = new Tutor(animaisCustodia,historicoAdocao,status, pessoaExistente.getNome(), pessoaExistente.getNascimento(), pessoaExistente.getSexo(), pessoaExistente.getCpf(), pessoaExistente.getEndereco(), pessoaExistente.getTelefone(), pessoaExistente.getEmail(), pessoaExistente.getSenha());
+            tutor.setId_tutor(id);
+            tutores.add(tutor);
+            System.out.println("Tutor adicionado com sucesso!");
+        }
+    }
+
+    public static void adicionarAdotante() {
+        System.out.println("Digite o ID da pessoa ou 0 para novo cadastro: ");
+        int id = ler.nextInt();
+
+        Pessoa pessoaExistente = null;
+        if (id != 0) {
+            pessoaExistente = buscarPessoaPorId(id);
+        }
+
+        if (pessoaExistente == null) {
+            // Se não encontrou pessoa, cadastrar nova
+            System.out.println("Pessoa nova, digite os dados abaixo.");
+            ler.nextLine();
+            System.out.print("Nome: ");
+            String nome = ler.nextLine();
+            System.out.print("Data de nascimento (dd/MM/yyyy): ");
+            String dataNascimentoStr = ler.nextLine();
+            Date nascimento = parseDate(dataNascimentoStr);
+            System.out.print("Sexo: ");
+            String sexo = ler.nextLine();
+            System.out.print("CPF: ");
+            long cpf = ler.nextLong();
+            ler.nextLine();
+            System.out.print("Endereço: ");
+            String endereco = ler.nextLine();
+            System.out.print("Telefone: ");
+            long telefone = ler.nextLong();
+            ler.nextLine();
+            System.out.print("Email: ");
+            String email = ler.nextLine();
+            System.out.print("Senha: ");
+            String senha = ler.nextLine();
+
+            // Atributos específicos de Adotante
+            System.out.println("Preferências:");
+            String preferencias = ler.nextLine();
+            System.out.println("Status:");
+            String status = ler.nextLine();
+
+            Adotante adotante = new Adotante(preferencias,status ,nome, nascimento, sexo, cpf, endereco, telefone, email, senha);
+            adotantes.add(adotante);
+            System.out.println("Adotante adicionado com sucesso!");
+
+        } else {
+            // Reutilizar dados da pessoa existente
+            System.out.println("Pessoa encontrada. Nome: " + pessoaExistente.getNome());
+
+            // Solicitar apenas os atributos específicos do adotante
+            // Atributos específicos de Adotante
+            System.out.println("Preferências:");
+            ler.nextLine();
+            String preferencias = ler.nextLine();
+            System.out.println("Status:");
+            String status = ler.nextLine();
+
+            Adotante adotante = new Adotante(preferencias,status, pessoaExistente.getNome(), pessoaExistente.getNascimento(), pessoaExistente.getSexo(), pessoaExistente.getCpf(), pessoaExistente.getEndereco(), pessoaExistente.getTelefone(), pessoaExistente.getEmail(), pessoaExistente.getSenha());
+            adotante.setId_adotante(id);
+            adotantes.add(adotante);
+            System.out.println("Adotante adicionado com sucesso!");
+        }
     }
 
     public static void adicionarAnimal() {
@@ -348,4 +464,59 @@ public class Main {
             }
         }
     }
+    public static Date parseDate(String dataStr) {
+        SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
+        try {
+            return formato.parse(dataStr);  // Faz o parsing da string para Date
+        } catch (ParseException e) {
+            System.out.println("Formato de data inválido. Use o formato dd/MM/yyyy.");
+            return null;  // Ou você pode lançar uma exceção, ou tratar o erro de outra forma
+        }
+    }
+
+    public static void exibirUsuarios(List<Funcionario> funcionarios, List<Tutor> tutores, List<Adotante> adotantes) {
+        // Mapa para armazenar pessoas por ID
+        Map<Integer, Usuario> usuariosMap = new HashMap<>();
+
+        // Adiciona funcionários ao mapa
+        for (Funcionario f : funcionarios) {
+            // Verifica se o ID já existe no mapa
+            if (!usuariosMap.containsKey(f.getId_funcionario())) {
+                // Se não existe, cria um novo usuário
+                usuariosMap.put(f.getId_funcionario(), new Usuario(f));
+            }
+            // Se já existe, atualiza as informações de funcionário
+            usuariosMap.get(f.getId_funcionario()).setFuncionario(f);
+        }
+
+        // Adiciona tutores ao mapa
+        for (Tutor t : tutores) {
+            // Verifica se o ID já existe no mapa
+            if (!usuariosMap.containsKey(t.getId_tutor())) {
+                // Se não existe, cria um novo usuário
+                usuariosMap.put(t.getId_tutor(), new Usuario(t));
+            }
+            // Se já existe, atualiza as informações de tutor
+            usuariosMap.get(t.getId_tutor()).setTutor(t);
+        }
+
+        // Adiciona adotantes ao mapa
+        for (Adotante a : adotantes) {
+            // Verifica se o ID já existe no mapa
+            if (!usuariosMap.containsKey(a.getId_adotante())) {
+                // Se não existe, cria um novo usuário
+                usuariosMap.put(a.getId_adotante(), new Usuario(a));
+            }
+            // Se já existe, atualiza as informações de adotante
+            usuariosMap.get(a.getId_adotante()).setAdotante(a);
+        }
+
+        // Exibe a lista de pessoas combinando todas as informações
+        for (Usuario usuario : usuariosMap.values()) {
+            System.out.println("\nInformações do Usuário:");
+            usuario.exibirInfoUsuario();
+            System.out.println("\n");
+        }
+    }
+
 }

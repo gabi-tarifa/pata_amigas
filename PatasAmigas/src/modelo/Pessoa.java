@@ -11,6 +11,7 @@ public class Pessoa {
     private long telefone;
     private String email;
     private String senha;
+    protected static int id_static = 1;
 
     public Pessoa(String nome, Date nascimento, String sexo, long cpf, String endereco, long telefone, String email, String senha) {
         this.nome = nome;
@@ -89,15 +90,14 @@ public class Pessoa {
 
     @Override
     public String toString() {
-        return "Pessoa{" +
-                "senha='" + senha + '\'' +
-                ", email='" + email + '\'' +
-                ", telefone=" + telefone +
-                ", endereco='" + endereco + '\'' +
-                ", cpf=" + cpf +
-                ", sexo='" + sexo + '\'' +
-                ", nascimento=" + nascimento +
-                ", nome='" + nome + '\'' +
-                '}';
+        return "Pessoa" +
+                "\nsenha:" + senha +
+                "\nemail:" + email +
+                "\ntelefone:" + telefone +
+                "\nendereco:" + endereco +
+                "\ncpf:" + cpf +
+                "\nsexo:" + sexo +
+                "\nnascimento=" + nascimento +
+                "\nnome:" + nome;
     }
 }
