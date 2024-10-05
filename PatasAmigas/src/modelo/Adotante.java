@@ -1,12 +1,10 @@
 package modelo;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.time.LocalDate;
 
 public class Adotante extends Pessoa {
-    private static int id_static = 1;
     private int id_adotante;
     private String preferencias;
     private List<String> historico_adocao = new ArrayList<>(); //depois vai virar o mesmo obj de tutor
@@ -22,6 +20,10 @@ public class Adotante extends Pessoa {
 
     public int getId_adotante() {
         return id_adotante;
+    }
+
+    public void setId_adotante(int id_adotante) {
+        this.id_adotante = id_adotante;
     }
 
     public String getPreferencias() {
@@ -50,15 +52,18 @@ public class Adotante extends Pessoa {
 
     @Override
     public String toString() {
-        return super.toString()+"dados especificos adotante{"+
-                "id_adotante=" + id_adotante +
-                ", preferencias=" + preferencias +
-                ", historico_adocao=" + historico_adocao +
-                ", status='" + status + '\'' +
-                '}';
+        return super.toString()+"\nDados especificos adotante"+
+                "\nid_adotante:" + id_adotante +
+                "\npreferencias:" + preferencias +
+                "\nhistorico_adocao:" + historico_adocao +
+                "\nstatus:" + status ;
     }
 
-    public void setId_adotante(int id) {
-        this.id_adotante = id;
+    public String apresentando() {
+        return "\nDados especificos adotante"+
+                "\nid_adotante:" + id_adotante +
+                "\npreferencias:" + preferencias +
+                "\nhistorico_adocao:" + historico_adocao +
+                "\nstatus:" + status ;
     }
 }

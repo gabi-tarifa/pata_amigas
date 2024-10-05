@@ -524,9 +524,8 @@ public class Main {
 
         // Exibe a lista de pessoas combinando todas as informações
         for (Usuario usuario : usuariosMap.values()) {
-            System.out.println("\nInformações do Usuário:");
+            System.out.println("\n\tInformações do Usuário:");
             usuario.exibirInfoUsuario();
-            System.out.println("\n");
         }
     }
 }

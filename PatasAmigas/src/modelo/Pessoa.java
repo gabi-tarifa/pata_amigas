@@ -12,6 +12,7 @@ public class Pessoa {
     private long telefone;
     private String email;
     private String senha;
+    protected static int id_static = 1;
 
     public Pessoa(String nome, LocalDate nascimento2, String sexo, long cpf, String endereco, long telefone, String email, String senha) {
         this.nome = nome;
@@ -90,15 +91,14 @@ public class Pessoa {
 
     @Override
     public String toString() {
-        return "Pessoa{" +
-                "senha='" + getSenha() + '\'' +
-                ", email='" + getEmail() + '\'' +
-                ", telefone=" + getTelefone() +
-                ", endereco='" + getEndereco() + '\'' +
-                ", cpf=" + getCpf() +
-                ", sexo='" + getSexo() + '\'' +
-                ", nascimento=" + getNascimento() +
-                ", nome='" + getNome() + '\'' +
-                '}';
+        return "\nPessoa" +
+                "\nnome:" + nome +
+                "\nsenha:" + senha +
+                "\nemail:" + email +
+                "\ntelefone:" + telefone +
+                "\nendereco:" + endereco +
+                "\ncpf:" + cpf +
+                "\nsexo:" + sexo +
+                "\nnascimento=" + nascimento ;
     }
 }

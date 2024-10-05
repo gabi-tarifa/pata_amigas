@@ -24,19 +24,27 @@ public class Usuario {
 
     public void exibirInfoUsuario() {
         // Exibe as informações básicas da pessoa
-        System.out.print(pessoa.toString());
+        System.out.print("Pessoa" +
+                "\nnome:" + pessoa.getNome()+
+                "\nsenha:" + pessoa.getSenha() +
+                "\nemail:" + pessoa.getEmail() +
+                "\ntelefone:" + pessoa.getTelefone() +
+                "\nendereco:" + pessoa.getEndereco() +
+                "\ncpf:" + pessoa.getCpf() +
+                "\nsexo:" + pessoa.getSexo() +
+                "\nnascimento=" + pessoa.getNascimento());
 
         // Exibe as informações específicas, se existirem
         if (funcionario != null) {
-            System.out.print(funcionario.toString());
+            System.out.print(funcionario.apresentando());
         }
 
         if (tutor != null) {
-            System.out.print(tutor.toString());
+            System.out.print(tutor.apresentando());
         }
 
         if (adotante != null) {
-            System.out.print(adotante.toString());
+            System.out.print(adotante.apresentando());
         }
     }
 }

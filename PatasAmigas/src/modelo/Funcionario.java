@@ -1,11 +1,9 @@
 package modelo;
 
 import java.util.Date;
-//import java.util.List;
 import java.time.LocalDate;
 
 public class Funcionario extends Pessoa {
-    private static int id_static = 1;
     private int id_funcionario;
     private Date data_contrato;
     private String cargo;
@@ -23,6 +21,10 @@ public class Funcionario extends Pessoa {
 
     public int getId_funcionario() {
         return id_funcionario;
+    }
+
+    public void setId_funcionario(int id_funcionario) {
+        this.id_funcionario = id_funcionario;
     }
 
     public Date getData_contrato() {
@@ -59,16 +61,20 @@ public class Funcionario extends Pessoa {
 
     @Override
     public String toString() {
-        return super.toString()+"dados especificos funcionário{"+
-                "id_funcionario=" + id_funcionario +
-                ", data_contrato=" + data_contrato +
-                ", cargo='" + cargo + '\'' +
-                ", salario=" + salario +
-                ", departamento='" + departamento + '\'' +
-                '}';
+        return super.toString()+"\ndados especificos funcionário"+
+                "\nid do funcionario:" + id_funcionario +
+                "\ndata do contrato:" + data_contrato +
+                "\ncargo:" + cargo +
+                "\nsalario:" + salario +
+                "\ndepartamento:" + departamento ;
     }
 
-    public void setId_funcionario(int id) {
-        this.id_funcionario = id;
+    public String apresentando() {
+        return "\ndados especificos funcionário"+
+                "\nid do funcionario:" + id_funcionario +
+                "\ndata do contrato:" + data_contrato +
+                "\ncargo:" + cargo +
+                "\nsalario:" + salario +
+                "\ndepartamento:" + departamento ;
     }
 }
