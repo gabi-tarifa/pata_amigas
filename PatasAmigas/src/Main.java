@@ -1,5 +1,6 @@
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.*;
 
 import modelo.*;
@@ -166,7 +167,7 @@ public class Main {
                 default:
                     System.out.println("Opção inválida! Tente novamente para continuar.");
             }
-}
+    }
 }
 
     public static void adicionarFuncionario() {
@@ -185,8 +186,12 @@ public class Main {
             System.out.print("Nome: ");
             String nome = ler.nextLine();
             System.out.print("Data de nascimento (dd/MM/yyyy): ");
-            String dataNascimentoStr = ler.nextLine();
-            Date nascimento = parseDate(dataNascimentoStr);
+            //esse pedaço do código, se não esperar o pior do usuário a gnt vai se lascar dms
+            String dataNascimentoStr = ler.nextLine(); // tratar a data adequadamente.
+            String[] partesData = dataNascimentoStr.split("/");
+            int dia = Integer.parseInt(partesData[0]), mes = Integer.parseInt(partesData[1]), ano = Integer.parseInt(partesData[2]);
+            LocalDate nascimento = LocalDate.of(ano, mes, dia); // Acredito que isso faça o trabalho, mas ainda tem q ver
+            
             System.out.print("Sexo: ");
             String sexo = ler.nextLine();
             System.out.print("CPF: ");
@@ -278,8 +283,12 @@ public class Main {
             System.out.print("Nome: ");
             String nome = ler.nextLine();
             System.out.print("Data de nascimento (dd/MM/yyyy): ");
-            String dataNascimentoStr = ler.nextLine();
-            Date nascimento = parseDate(dataNascimentoStr);
+            //esse pedaço do código, se não esperar o pior do usuário a gnt vai se lascar dms
+            String dataNascimentoStr = ler.nextLine(); // tratar a data adequadamente.
+            String[] partesData = dataNascimentoStr.split("/");
+            int dia = Integer.parseInt(partesData[0]), mes = Integer.parseInt(partesData[1]), ano = Integer.parseInt(partesData[2]);
+            LocalDate nascimento = LocalDate.of(ano, mes, dia); // Acredito que isso faça o trabalho, mas ainda tem q ver
+
             System.out.print("Sexo: ");
             String sexo = ler.nextLine();
             System.out.print("CPF: ");
@@ -344,8 +353,12 @@ public class Main {
             System.out.print("Nome: ");
             String nome = ler.nextLine();
             System.out.print("Data de nascimento (dd/MM/yyyy): ");
-            String dataNascimentoStr = ler.nextLine();
-            Date nascimento = parseDate(dataNascimentoStr);
+            //esse pedaço do código, se não esperar o pior do usuário a gnt vai se lascar dms
+            String dataNascimentoStr = ler.nextLine(); // tratar a data adequadamente.
+            String[] partesData = dataNascimentoStr.split("/");
+            int dia = Integer.parseInt(partesData[0]), mes = Integer.parseInt(partesData[1]), ano = Integer.parseInt(partesData[2]);
+            LocalDate nascimento = LocalDate.of(ano, mes, dia); // Acredito que isso faça o trabalho, mas ainda tem q ver
+
             System.out.print("Sexo: ");
             String sexo = ler.nextLine();
             System.out.print("CPF: ");
@@ -367,7 +380,7 @@ public class Main {
             System.out.println("Status:");
             String status = ler.nextLine();
 
-            Adotante adotante = new Adotante(preferencias,status ,nome, nascimento, sexo, cpf, endereco, telefone, email, senha);
+            Adotante adotante = new Adotante(preferencias,null, status ,nome, status, nascimento, sexo, cpf, endereco, telefone, email, senha);
             adotantes.add(adotante);
             System.out.println("Adotante adicionado com sucesso!");
 
@@ -383,7 +396,7 @@ public class Main {
             System.out.println("Status:");
             String status = ler.nextLine();
 
-            Adotante adotante = new Adotante(preferencias,status, pessoaExistente.getNome(), pessoaExistente.getNascimento(), pessoaExistente.getSexo(), pessoaExistente.getCpf(), pessoaExistente.getEndereco(), pessoaExistente.getTelefone(), pessoaExistente.getEmail(), pessoaExistente.getSenha());
+            Adotante adotante = new Adotante(preferencias,null, status, pessoaExistente.getNome(), status, pessoaExistente.getNascimento(), pessoaExistente.getSexo(), pessoaExistente.getCpf(), pessoaExistente.getEndereco(), pessoaExistente.getTelefone(), pessoaExistente.getEmail(), pessoaExistente.getSenha());
             adotante.setId_adotante(id);
             adotantes.add(adotante);
             System.out.println("Adotante adicionado com sucesso!");
@@ -397,7 +410,7 @@ public class Main {
         int idade;
         String sexo;
         String historicoMedico; //Será alterado mais pra frente para um objeto relacional (sla como krls faremos isso, mas faremos)
-        String dataCadastro; //Será usado para gerar um parse para entrar dentro do objeto Date cadastro
+        Date cadastro = new Date(); //Será usado para gerar um parse para entrar dentro do objeto Date cadastro
         String statusAdocao = "Disponível";
 
         System.out.println("Digite os dados no novo animal:");
@@ -415,9 +428,6 @@ public class Main {
         sexo = ler.nextLine();
         System.out.print("Histórico médico do animal: ");
         historicoMedico = ler.nextLine();
-        System.out.print("Data de cadastro do animal (dd/MM/yyyy): ");
-        dataCadastro = ler.nextLine(); // tratar a data adequadamente.
-        Date cadastro = new Date(); // Implementar o parse correto aqui.
 
         Animal animal = new Animal(nome, especie, raca, idade, sexo, historicoMedico, cadastro, statusAdocao);
         animais.add(animal);
@@ -464,6 +474,7 @@ public class Main {
             }
         }
     }
+    /* 
     public static Date parseDate(String dataStr) {
         SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
         try {
@@ -472,7 +483,7 @@ public class Main {
             System.out.println("Formato de data inválido. Use o formato dd/MM/yyyy.");
             return null;  // Ou você pode lançar uma exceção, ou tratar o erro de outra forma
         }
-    }
+    }*///Não vou apagar essa linha de código pq uma hora vai ser útil, mas para as datas de nascimento TEM que ser LocalDate para não ter mta informação desnecessária como horário e dia da semana 
 
     public static void exibirUsuarios(List<Funcionario> funcionarios, List<Tutor> tutores, List<Adotante> adotantes) {
         // Mapa para armazenar pessoas por ID
@@ -518,5 +529,4 @@ public class Main {
             System.out.println("\n");
         }
     }
-
 }

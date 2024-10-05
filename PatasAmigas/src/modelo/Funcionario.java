@@ -1,16 +1,18 @@
 package modelo;
 
 import java.util.Date;
-import java.util.List;
+//import java.util.List;
+import java.time.LocalDate;
 
 public class Funcionario extends Pessoa {
+    private static int id_static = 1;
     private int id_funcionario;
     private Date data_contrato;
     private String cargo;
     private float salario;
     private String departamento;
 
-    public Funcionario(Date data_contrato, String cargo, float salario, String departamento, String nome, Date nascimento, String sexo, long cpf, String endereco, long telefone, String email, String senha) {
+    public Funcionario(Date data_contrato, String cargo, float salario, String departamento, String nome, LocalDate nascimento, String sexo, long cpf, String endereco, long telefone, String email, String senha) {
         super(nome, nascimento,sexo,cpf,endereco,telefone,email, senha);
         this.data_contrato = data_contrato;
         this.id_funcionario = id_static++;
@@ -21,10 +23,6 @@ public class Funcionario extends Pessoa {
 
     public int getId_funcionario() {
         return id_funcionario;
-    }
-
-    public void setId_funcionario(int id_funcionario) {
-        this.id_funcionario = id_funcionario;
     }
 
     public Date getData_contrato() {
@@ -61,11 +59,16 @@ public class Funcionario extends Pessoa {
 
     @Override
     public String toString() {
-        return super.toString()+"\ndados especificos funcionário"+
-                "\nid do funcionario:" + id_funcionario +
-                "\ndata do contrato:" + data_contrato +
-                "\ncargo:" + cargo +
-                "\nsalario:" + salario +
-                "\ndepartamento:" + departamento ;
+        return super.toString()+"dados especificos funcionário{"+
+                "id_funcionario=" + id_funcionario +
+                ", data_contrato=" + data_contrato +
+                ", cargo='" + cargo + '\'' +
+                ", salario=" + salario +
+                ", departamento='" + departamento + '\'' +
+                '}';
+    }
+
+    public void setId_funcionario(int id) {
+        this.id_funcionario = id;
     }
 }

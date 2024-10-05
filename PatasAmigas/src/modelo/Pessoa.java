@@ -1,21 +1,21 @@
 package modelo;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 public class Pessoa {
     private String nome;
-    private Date nascimento;
+    private LocalDate nascimento;
     private String sexo;
     private long cpf;
     private String endereco;
     private long telefone;
     private String email;
     private String senha;
-    protected static int id_static = 1;
 
-    public Pessoa(String nome, Date nascimento, String sexo, long cpf, String endereco, long telefone, String email, String senha) {
+    public Pessoa(String nome, LocalDate nascimento2, String sexo, long cpf, String endereco, long telefone, String email, String senha) {
         this.nome = nome;
-        this.nascimento = nascimento;
+        this.nascimento = nascimento2;
         this.sexo = sexo;
         this.cpf = cpf;
         this.endereco = endereco;
@@ -32,11 +32,11 @@ public class Pessoa {
         this.nome = nome;
     }
 
-    public Date getNascimento() {
+    public LocalDate getNascimento() {
         return nascimento;
     }
 
-    public void setNascimento(Date nascimento) {
+    public void setNascimento(LocalDate nascimento) {
         this.nascimento = nascimento;
     }
 
@@ -90,14 +90,15 @@ public class Pessoa {
 
     @Override
     public String toString() {
-        return "Pessoa" +
-                "\nsenha:" + senha +
-                "\nemail:" + email +
-                "\ntelefone:" + telefone +
-                "\nendereco:" + endereco +
-                "\ncpf:" + cpf +
-                "\nsexo:" + sexo +
-                "\nnascimento=" + nascimento +
-                "\nnome:" + nome;
+        return "Pessoa{" +
+                "senha='" + getSenha() + '\'' +
+                ", email='" + getEmail() + '\'' +
+                ", telefone=" + getTelefone() +
+                ", endereco='" + getEndereco() + '\'' +
+                ", cpf=" + getCpf() +
+                ", sexo='" + getSexo() + '\'' +
+                ", nascimento=" + getNascimento() +
+                ", nome='" + getNome() + '\'' +
+                '}';
     }
 }
